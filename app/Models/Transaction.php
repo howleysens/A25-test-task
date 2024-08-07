@@ -26,6 +26,7 @@ class Transaction extends Model
         return self::query()
             ->join('employees', 'transactions.employee_id', '=', 'employees.id')
             ->select(['employee_id', DB::raw('SUM(work_hours) * employees.hourly_rate as unpaid_salary')])
+            ->where('is_paid', '=', 0)
             ->groupBy('employee_id')
             ->get();
     }
